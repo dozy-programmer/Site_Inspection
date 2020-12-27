@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--suppress ALL, CheckTagEmptyBody -->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="20dp"
+                android:orientation="horizontal"
+                android:weightSum="0">
+
+                <ImageView
+                    android:id="@+id/northwest_compass"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:rotation="-30"
+                    android:layout_weight="30"
+                    app:srcCompat="@drawable/ic_compass_icon"
+                    android:contentDescription="TODO"></ImageView>
+
+                <ImageView
+                    android:id="@+id/north_compass"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="30"
+                    app:srcCompat="@drawable/ic_compass_icon"
+                    android:contentDescription="TODO"></ImageView>
+
+                <ImageView
+                    android:id="@+id/northeast_compass"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:rotation="30"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="30"
+                    app:srcCompat="@drawable/ic_compass_icon"></ImageView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="20dp"
+                android:orientation="horizontal"
+                android:weightSum="90">
+
+                <ImageView
+                    android:id="@+id/west_compass"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:rotation="-90"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="30"
+                    app:srcCompat="@drawable/ic_compass_icon"></ImageView>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="30"
+                    android:visibility="invisible"
+                    app:srcCompat="@drawable/ic_compass_icon"></ImageView>
+
+                <ImageView
+                    android:id="@+id/east_compass"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:rotation="90"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="30"
+                    app:srcCompat="@drawable/ic_compass_icon"></ImageView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="20dp"
+                android:orientation="horizontal"
+                android:weightSum="90">
+
+                <ImageView
+                    android:id="@+id/southwest_compass"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="30"
+                    android:rotation="-135"
+                    app:srcCompat="@drawable/ic_compass_icon"></ImageView>
+
+                <ImageView
+                    android:id="@+id/south_compass"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="30"
+                    android:rotation="180"
+                    app:srcCompat="@drawable/ic_compass_icon"></ImageView>
+
+                <ImageView
+                    android:id="@+id/southeast_compass"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="30"
+                    android:rotation="135"
+                    app:srcCompat="@drawable/ic_compass_icon"></ImageView>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

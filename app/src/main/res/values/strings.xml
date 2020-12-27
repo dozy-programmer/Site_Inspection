@@ -1,0 +1,96 @@
+<resources>
+
+    <!-- App Info -->
+    <string name="app_name">Site Survey</string>
+    <string name="app_company">v1.3\nElements Solar LLC</string>
+    <string name="app_info">App Information</string>
+    <string name="app_path">/Site_Inspection/</string>
+
+    <!-- Fragment Titles -->
+    <string name="one">Project</string>
+    <string name="two">Photos</string>
+    <string name="three">Scan</string>
+    <string name="four">Panels</string>
+
+    <!-- Dialogs -->
+    <string name="panel_dialog_instructions">\nMax columns is 20\nMax rows is 40</string>
+    <string name="confirm_Action">Are you sure?</string>
+    <string name="colSize">Column_Size</string>
+    <string name="colSize_Land">Column_Size_Landscape</string>
+    <string name="project_info">Enter Project Information</string>
+    <string name="inverter_info">Added Inverter:</string>
+    <string name="panel_info">Panel Placement</string>
+    <string name="panel_error">Error! Please redo panel placement!</string>
+    <string name="panel_no_changes">No changes made</string>
+    <string name="panel_placement_confirmation">Save ?\nBy confirming, a screenshot will be taken automatically</string>
+    <string name="screen_shot">Screen-Shot</string>
+    <string name="screen_shot_question">What would you like to do?</string>
+    <string name="north_facing_select">Select North Facing Arrow:</string>
+    <string name="size_of_panels">Set Column and Row Size:</string>
+    <string name="column_size"> Set Column Size:</string>
+    <string name="panel_placement_path">_Panel_Placement</string>
+    <string name="edit_project">Edit Project Information</string>
+    <string name="edit_inverter">Edit Inverter</string>
+    <string name="edit_note">Edit Note:</string>
+    <string name="delete_project">Delete Project?</string>
+    <string name="delete_photo">Delete Photo?</string>
+    <string name="delete_note">Delete Note?</string>
+    <string name="delete_Inverter">Delete Inverter?</string>
+    <string name="project_status">Set Status of Project:</string>
+    <string name="rename_panel">Rename Panel:</string>
+    <string name="add_note">Add Note:</string>
+    <string name="permission_prompt">Please accept to take photos!</string>
+    <string name="input_incorrect">Incorrect Input</string>
+    <string name="panel_data_deleted">Panels Deleted</string>
+    <string name="checklist_title">Project Checklist:</string>
+    <!-- Dialog Action -->
+    <string name="confirm_Entry">CONFIRM</string>
+    <string name="close_Dialog">CLOSE</string>
+    <string name="rescan">RE-SCAN</string>
+    <string name="rename">RE-NAME</string>
+    <string name="delete_Dialog">DELETE</string>
+    <string name="retake">RE-TAKE</string>
+    <string name="view">VIEW</string>
+    <string name="edit">EDIT</string>
+    <string name="none">NONE</string>
+    <string name="select_all">SELECT ALL</string>
+
+    <!-- Error -->
+    <string name="compress_error">Error Compressing image file</string>
+    <string name="screenshot_error">An error occurred, please try again</string>
+
+    <!-- Orientation -->
+    <string name="portrait">Portrait</string>
+    <string name="landscape">Landscape</string>
+
+    <!-- Empty List -->
+    <string name="empty1">So empty in here</string>
+    <string name="empty2">Empty box\nSad Box</string>
+    <string name="empty3">Empty!\nLet\'s get this party started!</string>
+    <string name="empty4">Such sadness</string>
+    <string name="empty5">Empty\nLet us begin!</string>
+    <string name="empty6">Empty!</string>
+
+    <!-- Homepage -->
+    <string name="solar_motto">\"In Pursuit of Energy Independence \nfor all\"</string>
+
+    <!-- Miscellaneous -->
+    <string name="file_Provider">com.akapps.siteinspection.fileprovider</string>
+    <string name="prefs">Site_Survey_Prefs</string>
+    <string name="c_symbol">&amp;reg;</string>
+
+    <!-- Project Check List -->
+    <string-array name="checklist">
+        <item>Item 1</item>
+        <item>Item 2</item>
+        <item>Item 3</item>
+        <item>Item 4</item>
+        <item>Item 5</item>
+        <item>Item 6</item>
+        <item>Item 7</item>
+        <item>Item 8</item>
+        <item>Item 9</item>
+        <item>Item 10</item>
+    </string-array>
+
+</resources>

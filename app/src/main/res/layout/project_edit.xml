@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:weightSum="100"
+    android:paddingTop="@dimen/twenty_spacing"
+    android:paddingBottom="@dimen/twenty_spacing"
+    android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/project_Ongoing"
+            android:layout_width="40dp"
+            android:layout_weight="50"
+            android:layout_height="40dp"
+            app:srcCompat="@drawable/ic_delete_icon">
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/project_Done"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_weight="50"
+            android:layout_marginLeft="@dimen/twenty_spacing"
+            app:srcCompat="@drawable/ic_done_icon">
+        </ImageView>
+
+</LinearLayout>

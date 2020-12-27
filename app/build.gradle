@@ -1,0 +1,38 @@
+apply plugin: 'com.android.application'
+apply plugin: 'realm-android' // realm db plug-in
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.2"
+    defaultConfig {
+        applicationId "com.akapps.siteinspection"
+        minSdkVersion 21
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.1"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
+    // GitHubs Used
+    implementation 'com.tompee:funtablayout:1.1.0'                    // tab-layouts
+    implementation 'com.github.clans:fab:1.6.4'                       // floating action button
+    implementation 'com.afollestad.material-dialogs:core:0.9.2.3'     // dialogs
+    implementation 'com.github.bumptech.glide:glide:4.11.0'           // image process for faster scrolling
+    implementation 'com.google.zxing:core:3.3.3'                      // scanner
+    implementation 'com.journeyapps:zxing-android-embedded:3.2.0@aar' // also scanner
+}

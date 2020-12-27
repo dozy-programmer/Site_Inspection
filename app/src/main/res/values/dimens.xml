@@ -1,0 +1,5 @@
+<resources>
+    <dimen name="twenty_spacing">20dp</dimen>
+    <dimen name="ten_spacing">10dp</dimen>
+    <dimen name="five_spacing">5dp</dimen>
+</resources>
