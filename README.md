@@ -8,6 +8,7 @@ This application makes it easier for solar companies to do site inspections by a
 * [Features](#features)
 * [Purpose](#purpose)
 * [Tools](#tools)
+* [Download](#download)
 
 ## Preview
 
@@ -52,3 +53,7 @@ that made this app very useful.
 * Realm DB version: 6.1.0
 * Android Studio
 * Java
+
+## Download
+
+Download [app!](https://github.com/Amark18/Site_Inspection/tree/master/release) (using an Android device)
