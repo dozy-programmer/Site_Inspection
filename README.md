@@ -26,12 +26,14 @@ App homepage             |  Project homepage | Project photos | Project inverter
 	* Change Status of project
 * Project homepage: 
 	* Edit project information and checklist
-	* Navigate to project home
+	* Navigate to project home using entered address
 	* Add/Delete notes
 	* Email project data including all photos, inverter information, and panel placement.
+	* Edit checklist to save project progress 
 * Project photos: 
 	* Add/Delete project photos (Before Installation)
 	* Add/Delete project installation photos (After and during installation)
+	* Project photos and installation photos are separated by toolbar icon
 * Project inverters:
 	* Add inverters (Inverters are matched with each panel) manually or by scanning using camera
 	* Edit/delete inverters
