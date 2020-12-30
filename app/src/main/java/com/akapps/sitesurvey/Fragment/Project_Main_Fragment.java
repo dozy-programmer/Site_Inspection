@@ -588,19 +588,13 @@ public class Project_Main_Fragment extends Fragment {
 
         realm.beginTransaction();
         checklist.clear();
-        realm.commitTransaction();
-
-        for(int i=0; i<selected.length; i++){
-            realm.beginTransaction();
+        for(int i=0; i<selected.length; i++)
             checklist.add(selected[i]);
-            realm.commitTransaction();
-        }
 
         if(selected.length == getResources().getStringArray(R.array.checklist).length)
             isProjectCompleted = true;
-
-        realm.beginTransaction();
         current_Project.setCompleted(isProjectCompleted);
+
         realm.commitTransaction();
     }
 
