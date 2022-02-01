@@ -4,10 +4,15 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/amark/Documents/Seagate User Manual/APPS/Site Inspection_RealmDB_v2/app/src/main/res/drawable/ic_empty_iocn.xml" value="0.146875" />
+        <entry key="..\:/Users/amark/Documents/Seagate User Manual/APPS/Site Inspection_RealmDB_v2/app/src/main/res/layout/add_column_row_dialog_format.xml" value="0.2546875" />
+        <entry key="..\:/Users/amark/Documents/Seagate User Manual/APPS/Site Inspection_RealmDB_v2/app/src/main/res/layout/add_project_dialog_format.xml" value="0.36" />
         <entry key="..\:/Users/amark/Documents/Seagate User Manual/APPS/Site Inspection_RealmDB_v2/app/src/main/res/layout/fragment_project__photos.xml" value="0.268" />
+        <entry key="..\:/Users/amark/Documents/Seagate User Manual/APPS/Site Inspection_RealmDB_v2/app/src/main/res/layout/panel_format.xml" value="0.2546875" />
         <entry key="..\:/Users/amark/Documents/Seagate User Manual/APPS/Site Inspection_RealmDB_v2/app/src/main/res/layout/photos_format.xml" value="0.36" />
         <entry key="..\:/Users/amark/Documents/Seagate User Manual/APPS/Site Inspection_RealmDB_v2/app/src/main/res/layout/project_edit.xml" value="0.13072916666666667" />
         <entry key="..\:/Users/amark/Documents/Seagate User Manual/APPS/Site Inspection_RealmDB_v2/app/src/main/res/layout/project_layout_format.xml" value="0.13072916666666667" />
+        <entry key="..\:/Users/amark/Documents/Seagate User Manual/APPS/Site Inspection_RealmDB_v2/app/src/main/res/layout/project_main_fragment.xml" value="0.13072916666666667" />
+        <entry key="..\:/Users/amark/Documents/Seagate User Manual/APPS/Site Inspection_RealmDB_v2/app/src/main/res/layout/view_project.xml" value="0.13072916666666667" />
       </map>
     </option>
   </component>

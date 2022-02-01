@@ -35,7 +35,12 @@ import com.akapps.sitesurvey.Classes.Helper;
 import com.akapps.sitesurvey.Classes.Project;
 import com.akapps.sitesurvey.R;
 import com.akapps.sitesurvey.RecyclerViews.project_Panels_Recyclerview;
+import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
+import com.stfalcon.imageviewer.StfalconImageViewer;
+
+import java.util.ArrayList;
+
 import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmResults;
@@ -437,12 +442,21 @@ public class Panel_Placement_Fragment extends Fragment{
         }).show();
     }
 
-    // opens last taken screen shot in default gallery app
+    // opens last taken screen shot in fullscreen
     private void openScreenShot(final String screenShotFile){
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_VIEW);
-        intent.setDataAndType(Uri.parse(screenShotFile), "image/*");
-        getActivity().startActivity(intent);
+        ArrayList<String> screenshot = new ArrayList<>();
+        screenshot.add(screenShotFile);
+        new StfalconImageViewer.Builder<>(context, screenshot, (imageView, image) ->
+                Glide.with(context)
+                        .load(screenShotFile)
+                        .placeholder(R.drawable.ic_empty_iocn)
+                        .into(imageView))
+                .withBackgroundColor(context.getColor(R.color.gray))
+                .allowZooming(true)
+                .allowSwipeToDismiss(true)
+                .withHiddenStatusBar(false)
+                .withStartPosition(0)
+                .show();
     }
 
     private void screenShotDialog(){

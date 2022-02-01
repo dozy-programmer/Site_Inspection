@@ -18,7 +18,8 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="5dp">
 
             <EditText
                 android:id="@+id/project_Name_EditText"
@@ -34,7 +35,8 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="5dp">
 
             <EditText
                 android:id="@+id/project_Owner_EditText"
@@ -50,8 +52,8 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="5dp">
 
             <EditText
                 android:id="@+id/project_Address_EditText"
@@ -68,8 +70,8 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="5dp">
 
             <EditText
                 android:id="@+id/project_Street_EditText"
@@ -84,7 +86,8 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="5dp">
 
             <EditText
                 android:id="@+id/project_City_EditText"
@@ -99,7 +102,8 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="5dp">
 
             <EditText
                 android:id="@+id/project_Zipcode_EditText"
@@ -113,10 +117,6 @@
                 android:maxLength="6"
                 android:textColor="@color/orange_red" />
         </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 

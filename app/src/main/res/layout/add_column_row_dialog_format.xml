@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:theme="@style/TextAppearance"
     android:orientation="vertical">
 
@@ -19,49 +19,65 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:weightSum="2"
-        android:orientation="horizontal"
-        android:baselineAligned="false">
+        android:weightSum="10"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="wrap_content"
-            android:layout_weight="1"
-            android:layout_height="wrap_content">
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="30dp"
+            app:cardCornerRadius="20dp">
 
-            <EditText
-                android:id="@+id/column_input"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginLeft="30dp"
-                android:layout_centerVertical="true"
-                android:ems="10"
-                android:maxLength="2"
-                android:inputType="number"
-                android:hint="Enter Columns"
-                android:textColor="@color/orange_red" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <EditText
+                    android:id="@+id/column_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:maxLength="2"
+                    android:inputType="number"
+                    android:hint="Enter Columns"
+                    android:textColorHint="@color/ultra_white"
+                    android:background="@color/gray"
+                    android:textColor="@color/ultra_white" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="wrap_content"
-            android:layout_weight="1"
-            android:layout_height="wrap_content">
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
-                android:id="@+id/row_input"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Enter Rows"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:maxLength="2"
-                android:inputType="number"
-                android:textColor="@color/orange_red" />
+        </com.google.android.material.card.MaterialCardView>
 
-        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="20dp"
+            android:layout_weight="5"
+            android:layout_marginRight="25dp"
+            android:layout_marginLeft="5dp">
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/row_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="Enter Rows"
+                    android:textColorHint="@color/ultra_white"
+                    android:maxLength="2"
+                    android:inputType="number"
+                    android:background="@color/gray"
+                    android:textColor="@color/ultra_white" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </com.google.android.material.card.MaterialCardView>
 
     </LinearLayout>
 
