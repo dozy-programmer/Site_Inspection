@@ -60,7 +60,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:ems="10"
-                android:hint="Enter Address Number"
+                android:hint="Enter Address Number (Optional)"
                 android:inputType="number"
                 android:maxLength="8"
                 android:textColor="@color/orange_red" />
@@ -78,7 +78,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:ems="10"
-                android:hint="Street"
+                android:hint="Street (Optional)"
                 android:textColor="@color/orange_red" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -93,7 +93,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:ems="10"
-                android:hint="City"
+                android:hint="City (Optional)"
                 android:textColor="@color/orange_red" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -108,7 +108,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:ems="10"
-                android:hint="Zipcode"
+                android:hint="Zipcode (Optional)"
                 android:inputType="number"
                 android:maxLength="6"
                 android:textColor="@color/orange_red" />

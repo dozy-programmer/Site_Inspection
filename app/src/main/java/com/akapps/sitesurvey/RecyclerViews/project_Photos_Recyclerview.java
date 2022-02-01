@@ -1,8 +1,7 @@
 package com.akapps.sitesurvey.RecyclerViews;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +14,8 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.akapps.sitesurvey.Fragment.Project_Photos;
 import com.akapps.sitesurvey.R;
 import com.bumptech.glide.Glide;
+import com.stfalcon.imageviewer.StfalconImageViewer;
+
 import io.realm.Realm;
 import io.realm.RealmList;
 
@@ -50,19 +51,27 @@ public class project_Photos_Recyclerview extends RecyclerView.Adapter<project_Ph
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, final int position) {
+    public void onBindViewHolder(final MyViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         // populates ImageView with image file using glide
-        Glide.with(context).load(project_Photos.get(position)).into(holder.project_Photo);
+        Glide.with(context).load(project_Photos.get(position))
+                .placeholder(R.drawable.ic_empty_iocn)
+                .into(holder.project_Photo);
 
         // if an ImageView is clicked, it will open that image in the default gallery app
-        holder.project_Photo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setAction(Intent.ACTION_VIEW);
-                intent.setDataAndType(Uri.parse(project_Photos.get(position)), "image/*");
-                fragment.getActivity().startActivity(intent);
-            }
+        holder.project_Photo.setOnClickListener(v -> {
+            // if project image  is clicked, it will open that image in fullscreen inside app
+            new StfalconImageViewer.Builder<>(context, project_Photos, (imageView, image) ->
+                    Glide.with(context)
+                            .load(image)
+                            .placeholder(R.drawable.ic_empty_iocn)
+                            .into(imageView))
+                    .withBackgroundColor(context.getColor(R.color.gray))
+                    .allowZooming(true)
+                    .allowSwipeToDismiss(true)
+                    .withHiddenStatusBar(false)
+                    .withStartPosition(position)
+                    .withTransitionFrom(holder.project_Photo)
+                    .show();
         });
 
         // on long click of ImageView, user can delete photo
@@ -79,28 +88,20 @@ public class project_Photos_Recyclerview extends RecyclerView.Adapter<project_Ph
                     .positiveText(R.string.confirm_Entry)
                     .canceledOnTouchOutside(false)
                     .autoDismiss(false)
-                    .onPositive(new MaterialDialog.SingleButtonCallback() {
-                        @Override
-                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        // deletes photo and saves to database
-                        realm.beginTransaction();
-                        project_Photos.remove(position);
-                        realm.commitTransaction();
+                    .onPositive((dialog, which) -> {
+                    // deletes photo and saves to database
+                    realm.beginTransaction();
+                    project_Photos.remove(position);
+                    realm.commitTransaction();
 
-                        // updates recyclerview
-                        notifyDataSetChanged();
+                    // updates recyclerview
+                    notifyDataSetChanged();
 
-                        // if empty, then empty view is shown
-                        fragment.isListEmpty(project_Photos);
-                        dialog.dismiss();
-                        }
+                    // if empty, then empty view is shown
+                    fragment.isListEmpty(project_Photos);
+                    dialog.dismiss();
                     })
-                    .onNegative(new MaterialDialog.SingleButtonCallback() {
-                        @Override
-                        public void onClick (@NonNull MaterialDialog dialog, @NonNull DialogAction which){
-                        dialog.dismiss();
-                        }
-                    })
+                    .onNegative((dialog, which) -> dialog.dismiss())
                     .negativeText(R.string.close_Dialog)
                     .positiveColor(v.getResources().getColor(R.color.green))
                     .negativeColor(v.getResources().getColor(R.color.gray))

@@ -35,6 +35,17 @@ public class Project extends RealmObject{
 
     public Project(){}
 
+    public Project(String project_Id, String date_Created, String project_Name, String owner_Name){
+        this.project_Id = project_Id;
+        this.project_Name = project_Name;
+        this.owner_Name = owner_Name;
+        this.date_Created = date_Created;
+        this.street_Number = 0;
+        this.street_Name = null;
+        this.city = null;
+        this.zip_Code = 0;
+    }
+
     public Project(String project_Id, String date_Created, String project_Name, String owner_Name,
                    int street_Number, String street_Name, String city, int zipcode){
         this.project_Id = project_Id;
@@ -60,7 +71,19 @@ public class Project extends RealmObject{
     }
 
     public String getProject_Address() {
+        if(Helper.isDialogAddressEmpty(String.valueOf(street_Number), street_Name, city, String.valueOf(zip_Code)))
+            return "N/A";
         return street_Number + " " + street_Name + "\n" + city + ", CA " + zip_Code;
+    }
+
+    public boolean isAddressEmpty(){
+        try{
+            if (street_Number>0 && street_Name.length()>0 && city.length()>0 && zip_Code>0)
+                return false;
+        }catch (Exception e){
+            return false;
+        }
+        return true;
     }
 
     public int getNorthFacingArrowRotation() {

@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import android.provider.Settings;
 import android.text.Html;
+import android.util.Log;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.Menu;
@@ -105,6 +106,13 @@ public class Home_Page extends AppCompatActivity {
         realm.close();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // updates status of project
+        adapter.notifyDataSetChanged();
+    }
+
     private void initializeLayout(){
         setContentView(R.layout.homepage_layout);
 
@@ -155,16 +163,7 @@ public class Home_Page extends AppCompatActivity {
                             project_Name_Input.setError("Empty!");
                         else if (project_Owner.equals(""))
                             project_Owner_Input.setError("Empty!");
-                        else if (project_Address.equals(""))
-                            project_Address_Input.setError("Empty!");
-                        else if (project_Street.equals(""))
-                            project_Street_Input.setError("Empty!");
-                        else if (project_City.equals(""))
-                            project_City_Input.setError("Empty");
-                        else if (project_Zipcode.equals(""))
-                            project_Zipcode_Input.setError("Empty!");
                         else {
-
                             if(!project_Name.toLowerCase().contains("project"))
                                 project_Name+= " Project";
 
@@ -173,14 +172,21 @@ public class Home_Page extends AppCompatActivity {
                                     .findAll();
 
                             if(user_Exists.size() == 0) {
-                                Project newProject = new Project(project_Name + "_" + project_Street, DateFormat.getDateInstance().format(new Date()),
-                                        project_Name, project_Owner, Integer.valueOf(project_Address), project_Street,
-                                        project_City, Integer.valueOf(project_Zipcode));
+                                boolean addressEmpty = Helper.isDialogAddressEmpty(project_Address, project_Street, project_City, project_Zipcode);
+                                Project newProject;
+                                if(!addressEmpty) {
+                                    newProject = new Project(project_Name + "_" + project_Street, DateFormat.getDateInstance().format(new Date()),
+                                            project_Name, project_Owner, Integer.valueOf(project_Address), project_Street,
+                                            project_City, Integer.valueOf(project_Zipcode));
+                                }
+                                else{
+                                    newProject = new Project(project_Name + "_" + project_Street, DateFormat.getDateInstance().format(new Date()),
+                                            project_Name, project_Owner);
+                                }
 
                                 realm.beginTransaction();
                                 realm.insertOrUpdate(newProject);
                                 realm.commitTransaction();
-                                adapter.notifyItemInserted(all_Projects.size());
 
                                 // if recyclerview is empty, then empty view is shown
                                 isListEmpty();

@@ -72,27 +72,6 @@ public class Helper {
             if(app_background != null)
                 app_background.setVisibility(View.VISIBLE);
         }
-
-        switch (randomText) {
-            case 0:
-                empty_Text.setText(R.string.empty1);
-                break;
-            case 1:
-                empty_Text.setText(R.string.empty2);
-                break;
-            case 2:
-                empty_Text.setText(R.string.empty3);
-                break;
-            case 3:
-                empty_Text.setText(R.string.empty4);
-                break;
-            case 4:
-                empty_Text.setText(R.string.empty5);
-                break;
-            default:
-                empty_Text.setText(R.string.empty6);
-                break;
-        }
     }
 
     /**
@@ -121,6 +100,17 @@ public class Helper {
         }
 
         return dir.delete();
+    }
+
+    // if address portion of dialog is empty or not filled correctly, return false
+    public static boolean isDialogAddressEmpty(String address, String street, String city, String zipcode){
+        try{
+            if (address.length()>0 && street.length()>0 && city.length()>0 && zipcode.length()>0)
+                return false;
+        }catch (Exception e){
+            return true;
+        }
+        return true;
     }
 
 }

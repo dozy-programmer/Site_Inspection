@@ -1,22 +1,17 @@
 package com.akapps.sitesurvey.Fragment;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import android.provider.MediaStore;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,14 +26,11 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.akapps.sitesurvey.Classes.Camera;
 import com.akapps.sitesurvey.Classes.Helper;
 import com.akapps.sitesurvey.Classes.Project;
 import com.akapps.sitesurvey.R;
 import com.akapps.sitesurvey.RecyclerViews.project_Photos_Recyclerview;
-import com.google.android.material.snackbar.Snackbar;
-import java.io.File;
-import java.io.IOException;
+import com.github.dhaval2404.imagepicker.ImagePicker;
 import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmResults;
@@ -53,13 +45,6 @@ public class Project_Photos extends Fragment{
     private boolean type_Photos_Layout;
     private int numberOfColumns;
     private boolean orientation;
-    private boolean morePhotos;
-
-    // camera
-    private String FILE_PROVIDER_AUTHORITY;
-    private int REQUEST_IMAGE_CAPTURE = 1;
-    private String mTempPhotoPath;
-    private Bitmap mResultsBitmap;
 
     // layout and activity info
     private RecyclerView recyclerView_Photos;
@@ -108,8 +93,6 @@ public class Project_Photos extends Fragment{
         if (savedInstanceState != null) {
             type_Photos_Layout = savedInstanceState.getBoolean("photos layout");
         }
-
-        FILE_PROVIDER_AUTHORITY = getResources().getString(R.string.file_Provider);
     }
 
     // when orientation changes, then type_Photos_Layout is saved
@@ -157,16 +140,63 @@ public class Project_Photos extends Fragment{
         add_Photos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addProject();
+                openCamera();
             }
         });
 
         updatePhotoLayout();
     }
 
+    private void openCamera(){
+        ImagePicker.with(this)
+                .maxResultSize(814, 814)
+                .compress(1024)
+                .saveDir(context.getExternalFilesDir(null))
+                .start();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            Uri uri = data.getData();
+
+            String photo_Location = uri.getPath();
+
+            // if false, then it is saved to project photos and recyclerview is updated
+            if(!type_Photos_Layout) {
+                realm.beginTransaction();
+                project_Photos.add(photo_Location);
+                realm.commitTransaction();
+
+                if(project_Photos.size()==0)
+                    populateAdapter(project_Photos);
+                else
+                    adapter_Photos.notifyItemInserted(project_Photos.size()-1);
+
+                // is project_Photos is empty, then empty view is set
+                isListEmpty(project_Photos);
+            }
+            else {
+                // if true, then it is saved to installation photos and recyclerview is updated
+                realm.beginTransaction();
+                installation_Photos.add(photo_Location);
+                realm.commitTransaction();
+
+                if (installation_Photos.size() == 0)
+                    populateAdapter(installation_Photos);
+                else
+                    adapter_Photos.notifyItemInserted(installation_Photos.size() - 1);
+
+                // is project_Photos is empty, then empty view is set
+                isListEmpty(installation_Photos);
+            }
+        }
+        else if (resultCode== ImagePicker.RESULT_ERROR) {}
+    }
+
     private void updatePhotoLayout(){
         // if false, then the current pictures being viewed is project photos
-        Log.d("photos", "Type photos layout is " + !type_Photos_Layout);
         if(!type_Photos_Layout) {
             populateAdapter(project_Photos);
             currentLayout.setText("Project Photos");
@@ -199,7 +229,7 @@ public class Project_Photos extends Fragment{
 
         // opens camera to take pictures and will go continuously until back button is pressed
         if (id == R.id.action_Add) {
-            addProject();
+            openCamera();
         }
         // switches between project photos and installation photos by repopulating recyclerview
         else if (id == R.id.action_Switch) {
@@ -246,11 +276,13 @@ public class Project_Photos extends Fragment{
                         if(orientation && inputNum>4 && inputNum<9) {
                             setColumnSize(inputNum);
                             recyclerView_Photos.setLayoutManager(new GridLayoutManager(context, inputNum));
+                            recyclerView_Photos.setAdapter(adapter_Photos);
                             dialog.dismiss();
                         }
                         else if (!orientation && inputNum>2 && inputNum<6){
                             setColumnSize(inputNum);
                             recyclerView_Photos.setLayoutManager(new GridLayoutManager(context, inputNum));
+                            recyclerView_Photos.setAdapter(adapter_Photos);
                             dialog.dismiss();
                         }
                         else {
@@ -278,24 +310,6 @@ public class Project_Photos extends Fragment{
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    // locks orientation so that the app does not crash
-    // after opening the camera and changing the orientation
-    // if camera permission is denied, user is prompted to accept permission
-    @SuppressLint("SourceLockedOrientationActivity")
-    private void addProject(){
-        if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA)
-                == PackageManager.PERMISSION_DENIED) {
-            requestPermissions(new String[]{Manifest.permission.CAMERA}, REQUEST_IMAGE_CAPTURE);
-        }
-        else {
-            if(orientation)
-                Helper.setOrientation(getActivity(), getString(R.string.landscape));
-            else
-                Helper.setOrientation(getActivity(), getString(R.string.portrait));
-            launchCamera();
-        }
     }
 
     // sets the size of columns for current orientation
@@ -329,104 +343,6 @@ public class Project_Photos extends Fragment{
         return columnSize;
     }
 
-    // launches camera and adds each picture to its respective place (installation or project) photos
-    private void launchCamera() {
-        morePhotos = true;
-
-        // Create the capture image intent
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-        // Ensure that there's a camera activity to handle the intent
-        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-            // Create the temporary File where the photo should go
-            File photoFile = null;
-            try {
-                photoFile = Camera.createTempImageFile(context);
-            } catch (IOException ex) {
-                // Error occurred while creating the File
-                ex.printStackTrace();
-            }
-            // Continue only if the File was successfully created
-            if (photoFile != null) {
-
-                // Get the path of the temporary file
-                mTempPhotoPath = photoFile.getAbsolutePath();
-
-                // Get the content URI for the image file
-                Uri photoURI = FileProvider.getUriForFile(context,
-                        FILE_PROVIDER_AUTHORITY,
-                        photoFile);
-
-                // Add the URI so the camera can store the image
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-
-                // Launch the camera activity
-                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-            }
-        }
-    }
-
-    // handles the result of taking a photo
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (REQUEST_IMAGE_CAPTURE == 1 && resultCode == getActivity().RESULT_OK) {
-            mResultsBitmap = Camera.resamplePic(context, mTempPhotoPath);
-            // Delete the temporary image file
-            Camera.deleteImageFile(context, mTempPhotoPath);
-
-            // Saves the image and sets retrieves the location path to photo_Location
-            String photo_Location = Camera.saveImage(view, context, mResultsBitmap, all_Projects.get(project_Position).getProject_Name(), true);
-
-            // if false, then it is saved to project photos and recyclerview is updated
-            if(!type_Photos_Layout) {
-                realm.beginTransaction();
-                project_Photos.add(photo_Location);
-                realm.commitTransaction();
-
-                if(project_Photos.size()==0)
-                    populateAdapter(project_Photos);
-                else
-                    adapter_Photos.notifyItemInserted(project_Photos.size()-1);
-
-                // is project_Photos is empty, then empty view is set
-                isListEmpty(project_Photos);
-            }
-            else{
-                // if true, then it is saved to installation photos and recyclerview is updated
-                realm.beginTransaction();
-                installation_Photos.add(photo_Location);
-                realm.commitTransaction();
-
-                if(installation_Photos.size()==0)
-                    populateAdapter(installation_Photos);
-                else
-                    adapter_Photos.notifyItemInserted(installation_Photos.size()-1);
-
-                // is project_Photos is empty, then empty view is set
-                isListEmpty(installation_Photos);
-            }
-
-            // when camera is launch, it will keep re-launching the
-            // camera continuously until back button is pressed
-            if(morePhotos)
-                launchCamera();
-        }
-        // when back button is pressed, orientation is unlocked
-        else
-            Helper.setOrientation(getActivity(), "None");
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_IMAGE_CAPTURE) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                launchCamera();
-            else
-                Helper.showUserMessage(view, getString(R.string.permission_prompt), Snackbar.LENGTH_SHORT);
-        }
-    }
 
     // if recyclerview is empty, then empty view is shown
     public void isListEmpty(RealmList<String> project_Photos){

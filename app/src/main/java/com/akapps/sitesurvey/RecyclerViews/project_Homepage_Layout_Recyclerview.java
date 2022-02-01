@@ -15,8 +15,11 @@ import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.akapps.sitesurvey.Activities.Home_Page;
 import com.akapps.sitesurvey.Activities.View_Project;
+import com.akapps.sitesurvey.Classes.Helper;
 import com.akapps.sitesurvey.Classes.Project;
 import com.akapps.sitesurvey.R;
+import com.google.android.material.snackbar.Snackbar;
+
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -62,16 +65,16 @@ public class project_Homepage_Layout_Recyclerview extends RecyclerView.Adapter<p
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, final int position) {
+    public void onBindViewHolder(MyViewHolder holder, final int position) {
         // retrieves the current project data
-        final Project currentProject = projects.get(position);
+        Project currentProject = projects.get(position);
 
         // populates TextViews with project info
         holder.project_Name .setText(currentProject.getProject_Name());
         holder.project_Created.setText(currentProject.getDate_Created());
         holder.project_Owner.setText(currentProject.getOwner_Name());
 
-        // if project is completed, then the text and Imageview is set to
+        // if project is completed, then the text and ImageView is set to
         // green to indicate so and gold-ish color if not
         if(currentProject.isCompleted()) {
             holder.project_Status.setText("Completed");

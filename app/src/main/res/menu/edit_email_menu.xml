@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/action_Checklist"
+        android:title="CheckList"
+        android:icon="@drawable/icon_checklist"
+        android:visible="true"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/action_Email"
         android:title="Email"
         android:icon="@drawable/ic_gmail_icon"
@@ -13,13 +20,6 @@
         android:id="@+id/action_Edit"
         android:title="Edit"
         android:icon="@drawable/icon_edit_black_24"
-        android:visible="true"
-        app:showAsAction="always" />
-
-    <item
-        android:id="@+id/action_Checklist"
-        android:title="CheckList"
-        android:icon="@drawable/icon_checklist"
         android:visible="true"
         app:showAsAction="always" />
 

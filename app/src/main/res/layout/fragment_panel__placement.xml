@@ -87,8 +87,7 @@
                     android:paddingTop="@dimen/ten_spacing"
                     android:textColor="@color/colorPrimary"
                     android:textSize="16sp"
-                    android:text="Let's Begin">
-
+                    android:text="Start Panel Placement">
                 </TextView>
 
             </LinearLayout>

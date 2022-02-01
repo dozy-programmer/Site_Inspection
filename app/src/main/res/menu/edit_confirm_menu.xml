@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_Confirm"
+        android:id="@+id/action_Screenshot"
         android:title=""
-        android:icon="@drawable/ic_check_black_24dp"
+        android:icon="@drawable/icon_screenshot"
         android:visible="true"
         app:showAsAction="always" />
 
@@ -13,6 +13,13 @@
         android:id="@+id/action_Edit"
         android:title=""
         android:icon="@drawable/icon_edit_black_24"
+        android:visible="true"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_Confirm"
+        android:title=""
+        android:icon="@drawable/icon_done"
         android:visible="true"
         app:showAsAction="always" />
 

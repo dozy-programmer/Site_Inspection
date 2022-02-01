@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -110,18 +111,11 @@ public class Barcode_Scanner extends Fragment {
         empty_Layout = view.findViewById(R.id.empty_Layout);
         empty_Text = view.findViewById(R.id.empty_Text);
 
-        // locks orientation so that the app does not crash
-        // after opening the camera and changing the orientation
+        // opens camera to scan a barcode and returns the data
         add_Inverter.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("SourceLockedOrientationActivity")
             @Override
             public void onClick(View v) {
-            if(Helper.getOrientation(context))
-                Helper.setOrientation(getActivity(), getString(R.string.landscape));
-            else
-                Helper.setOrientation(getActivity(), getString(R.string.portrait));
-            // opens camera to scan a barcode and returns the data
-            scanBarcode();
+                scanBarcode();
             }
         });
 
@@ -140,6 +134,13 @@ public class Barcode_Scanner extends Fragment {
 
     // opens camera to scan a barcode and returns the data
     private void scanBarcode(){
+        // locks orientation so that the app does not crash
+        // after opening the camera and changing the orientation
+        if(Helper.getOrientation(context))
+            Helper.setOrientation(getActivity(), getString(R.string.landscape));
+        else
+            Helper.setOrientation(getActivity(), getString(R.string.portrait));
+
         IntentIntegrator intentIntegrator = new IntentIntegrator(getActivity());
         intentIntegrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
         intentIntegrator.setBeepEnabled(false);
@@ -197,11 +198,7 @@ public class Barcode_Scanner extends Fragment {
 
     // adds barcode and saves it to the database
     private void addBarcode(final String result){
-        Inverter currentInverter = new Inverter((all_Inverters.size()+1), result);
-
-        realm.beginTransaction();
-        all_Inverters.add(currentInverter);
-        realm.commitTransaction();
+        final Inverter currentInverter = new Inverter((all_Inverters.size()+1), result);
 
         new MaterialDialog.Builder(context)
             .title(getString(R.string.inverter_info))
@@ -217,6 +214,9 @@ public class Barcode_Scanner extends Fragment {
                 @Override
                 public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                     // updates data, unlocks orientation, and closes dialog
+                    realm.beginTransaction();
+                    all_Inverters.add(currentInverter);
+                    realm.commitTransaction();
                     populateAdapter(all_Inverters);
                     isListEmpty();
                     Helper.setOrientation(getActivity(), "None");

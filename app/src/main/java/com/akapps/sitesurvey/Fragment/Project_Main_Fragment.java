@@ -39,8 +39,10 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.StringTokenizer;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -140,6 +142,8 @@ public class Project_Main_Fragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         realm.close();
+        if(edit_Project_Dialog!=null)
+            edit_Project_Dialog.cancel();
     }
 
     private void initializeLayout(){
@@ -175,10 +179,14 @@ public class Project_Main_Fragment extends Fragment {
         navigate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse("http://maps.google.co.in/maps?q=" + current_Project.getProject_Address()));
-            if(intent.resolveActivity(getActivity().getPackageManager())!=null)
-                startActivity(intent);
+                if (!current_Project.isAddressEmpty()) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse("http://maps.google.co.in/maps?q=" + current_Project.getProject_Address()));
+                    if (intent.resolveActivity(getActivity().getPackageManager()) != null)
+                        startActivity(intent);
+                }
+                else
+                    Helper.showUserMessage(view, "Address does not exist", Snackbar.LENGTH_SHORT);
             }
         });
 
@@ -296,6 +304,12 @@ public class Project_Main_Fragment extends Fragment {
         project_Street_Input.setText(current_Project.getStreet_Name());
         project_City_Input.setText(current_Project.getCity());
         project_Zipcode_Input.setText(String.valueOf(current_Project.getZipcode()));
+
+        // if street number or zipcode is 0, show in dialog as empty and not 0
+        if(current_Project.getStreet_Number() == 0)
+            project_Address_Input.setText("");
+        if(current_Project.getZipcode()  == 0)
+            project_Zipcode_Input.setText("");
     }
 
     // creates a zipped folder for project photos, a zipped folder for installation photos, attaches image
@@ -428,14 +442,6 @@ public class Project_Main_Fragment extends Fragment {
                         project_Name_Input.setError("Empty!");
                     else if (p_Owner.equals(""))
                         project_Owner_Input.setError("Empty!");
-                    else if (p_Address.equals(""))
-                        project_Address_Input.setError("Empty!");
-                    else if (p_Street.equals(""))
-                        project_Street_Input.setError("Empty!");
-                    else if (p_City.equals(""))
-                        project_City_Input.setError("Empty");
-                    else if (p_Zipcode.equals(""))
-                        project_Zipcode_Input.setError("Empty!");
                     else {
 
                         RealmResults<Project> user_Exists = realm.where(Project.class)
@@ -445,6 +451,13 @@ public class Project_Main_Fragment extends Fragment {
                         // new project name could be unique, or it could still
                         // be the same one
                         if(user_Exists.size() <=1) {
+                            boolean addressEmpty = Helper.isDialogAddressEmpty(p_Address, p_Street, p_City, p_Zipcode);
+                            if(addressEmpty) {
+                                p_Address = "0";
+                                p_Street = null;
+                                p_City = null;
+                                p_Zipcode = "0";
+                            }
 
                             // if none of the input fields is empty, then the project is
                             // updates and the new information is saved to database
@@ -590,11 +603,13 @@ public class Project_Main_Fragment extends Fragment {
         checklist.clear();
         for(int i=0; i<selected.length; i++)
             checklist.add(selected[i]);
+        realm.commitTransaction();
 
         if(selected.length == getResources().getStringArray(R.array.checklist).length)
             isProjectCompleted = true;
-        current_Project.setCompleted(isProjectCompleted);
 
+        realm.beginTransaction();
+        current_Project.setCompleted(isProjectCompleted);
         realm.commitTransaction();
     }
 

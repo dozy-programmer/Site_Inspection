@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -113,6 +114,10 @@ public class Panel_Placement_Fragment extends Fragment{
     public void onDestroy() {
         super.onDestroy();
         realm.close();
+        if(inputColsRows!=null)
+            inputColsRows.cancel();
+        if(inputNorthFacingArrow!=null)
+            inputNorthFacingArrow.cancel();
     }
 
     @SuppressLint("RestrictedApi")
@@ -171,6 +176,8 @@ public class Panel_Placement_Fragment extends Fragment{
                 northFacingArrow.setImageDrawable(getResources().getDrawable(R.drawable.ic_compass_icon));
                 northFacingArrow.setRotation(all_Projects.get(project_Position).getNorthFacingArrowRotation());
             }
+            // shows screenshot icon based on status of edit mode
+            getActivity().invalidateOptionsMenu();
             // populates recyclerview
             populateAdapter(project_Panels, editMode);
         }
@@ -190,13 +197,27 @@ public class Panel_Placement_Fragment extends Fragment{
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.edit_confirm_menu, menu);
         super.onCreateOptionsMenu(menu,inflater);
+
+        MenuItem screenshotIcon = menu.findItem(R.id.action_Screenshot);
+        MenuItem confirmIcon = menu.findItem(R.id.action_Confirm);
+        if(editMode) {
+            screenshotIcon.setVisible(false);
+            confirmIcon.setVisible(true);
+        }
+        else {
+            screenshotIcon.setVisible(true);
+            confirmIcon.setVisible(false);
+        }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_Confirm) {
+        if(id == R.id.action_Screenshot){
+            screenShotDialog();
+        }
+        else if (id == R.id.action_Confirm) {
             new MaterialDialog.Builder(context)
                 .title(getString(R.string.panel_info))
                 .titleColor(context.getResources().getColor(R.color.orange_red))
@@ -241,63 +262,6 @@ public class Panel_Placement_Fragment extends Fragment{
                         dialog.dismiss();
                     }
                 })
-                .onNeutral(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                    // checks to see if there are panels selected and that
-                    // user is not in edit mode
-                    if(!isPanelPlacementEmpty() && !editMode) {
-                        new MaterialDialog.Builder(context)
-                                .title(getString(R.string.screen_shot))
-                                .titleColor(context.getResources().getColor(R.color.orange_red))
-                                .contentGravity(GravityEnum.CENTER)
-                                .content(getString(R.string.screen_shot_question))
-                                .contentColor(context.getResources().getColor(R.color.bluish))
-                                .backgroundColor(context.getResources().getColor(R.color.black))
-                                .positiveText(getString(R.string.retake))
-                                .canceledOnTouchOutside(false)
-                                .autoDismiss(false)
-                                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                                    @Override
-                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                        // takes screen shot of panels
-                                        screenShot();
-                                        dialog.dismiss();
-                                    }
-                                })
-                                .onNegative(new MaterialDialog.SingleButtonCallback() {
-                                    @Override
-                                    public void onClick (@NonNull MaterialDialog dialog, @NonNull DialogAction which){
-                                    dialog.dismiss();
-                                    }
-                                })
-                                .onNeutral(new MaterialDialog.SingleButtonCallback() {
-                                    @Override
-                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                    // opens last screen shot taken
-                                    openScreenShot(all_Projects.get(project_Position).getPanel_Placement_Screenshot_Path());
-                                    dialog.dismiss();
-                                    }
-                                })
-                                .neutralText(getString(R.string.view))
-                                .neutralColor(getResources().getColor(R.color.goldish))
-                                .negativeText(R.string.close_Dialog)
-                                .positiveColor(getResources().getColor(R.color.green))
-                                .negativeColor(getResources().getColor(R.color.gray))
-                                .show();
-                        }
-                        // user is in edit mode, therefore they are notified to confirm panel placement
-                        else if(!isPanelPlacementEmpty())
-                            Helper.showUserMessage(view, "Confirm placement to take screenshot", Snackbar.LENGTH_LONG);
-                        else
-                            // no selected panels, user is notified
-                            Helper.showUserMessage(view, "Empty", Snackbar.LENGTH_LONG);
-
-                        dialog.dismiss();
-                    }
-                })
-                .neutralText(getString(R.string.screen_shot))
-                .neutralColor(getResources().getColor(R.color.goldish))
                 .negativeText(R.string.close_Dialog)
                 .positiveColor(getResources().getColor(R.color.green))
                 .negativeColor(getResources().getColor(R.color.gray))
@@ -436,17 +400,9 @@ public class Panel_Placement_Fragment extends Fragment{
                     dialog.dismiss();
                     }
                 })
-                .onNegative(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick (@NonNull MaterialDialog dialog, @NonNull DialogAction which){
-                        dialog.dismiss();
-                    }
-                })
                 .neutralText(getString(R.string.none))
                 .neutralColor(getResources().getColor(R.color.goldish))
-                .negativeText(R.string.close_Dialog)
                 .positiveColor(getResources().getColor(R.color.green))
-                .negativeColor(getResources().getColor(R.color.gray))
                 .show();
 
         initializeCompassDialogInput();
@@ -487,6 +443,62 @@ public class Panel_Placement_Fragment extends Fragment{
         intent.setAction(Intent.ACTION_VIEW);
         intent.setDataAndType(Uri.parse(screenShotFile), "image/*");
         getActivity().startActivity(intent);
+    }
+
+    private void screenShotDialog(){
+        // checks to see if there are panels selected and that
+        // user is not in edit mode
+        if(!isPanelPlacementEmpty() && !editMode) {
+            new MaterialDialog.Builder(context)
+                    .title(getString(R.string.screen_shot))
+                    .titleColor(context.getResources().getColor(R.color.orange_red))
+                    .contentGravity(GravityEnum.CENTER)
+                    .content(getString(R.string.screen_shot_question))
+                    .contentColor(context.getResources().getColor(R.color.bluish))
+                    .backgroundColor(context.getResources().getColor(R.color.black))
+                    .positiveText(getString(R.string.retake))
+                    .canceledOnTouchOutside(false)
+                    .autoDismiss(false)
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            // takes screen shot of panels
+                            screenShot();
+                            dialog.dismiss();
+                        }
+                    })
+                    .onNegative(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick (@NonNull MaterialDialog dialog, @NonNull DialogAction which){
+                            dialog.dismiss();
+                        }
+                    })
+                    .onNeutral(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            // opens last screen shot taken
+                            String screenShotPath = all_Projects.get(project_Position).getPanel_Placement_Screenshot_Path();
+                            if(!screenShotPath.isEmpty()) {
+                                openScreenShot(all_Projects.get(project_Position).getPanel_Placement_Screenshot_Path());
+                                dialog.dismiss();
+                            }
+                            else
+                                Helper.showUserMessage(view, getString(R.string.no_screenshots), Snackbar.LENGTH_LONG);
+                        }
+                    })
+                    .neutralText(getString(R.string.view))
+                    .neutralColor(getResources().getColor(R.color.goldish))
+                    .negativeText(R.string.close_Dialog)
+                    .positiveColor(getResources().getColor(R.color.green))
+                    .negativeColor(getResources().getColor(R.color.gray))
+                    .show();
+        }
+        // user is in edit mode, therefore they are notified to confirm panel placement
+        else if(!isPanelPlacementEmpty())
+            Helper.showUserMessage(view, "Confirm placement to take screenshot", Snackbar.LENGTH_LONG);
+        else
+            // no selected panels, user is notified
+            Helper.showUserMessage(view, "Empty", Snackbar.LENGTH_LONG);
     }
 
     // takes screenshot of the current fragment, crops it to get rid of white space above and

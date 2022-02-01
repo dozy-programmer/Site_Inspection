@@ -2,7 +2,7 @@
 
     <!-- App Info -->
     <string name="app_name">Site Survey</string>
-    <string name="app_company">v1.3\nElements Solar LLC</string>
+    <string name="app_company">v1.5\nElements Solar LLC</string>
     <string name="app_info">App Information</string>
     <string name="app_path">/Site_Inspection/</string>
 
@@ -13,7 +13,7 @@
     <string name="four">Panels</string>
 
     <!-- Dialogs -->
-    <string name="panel_dialog_instructions">\nMax columns is 20\nMax rows is 40</string>
+    <string name="panel_dialog_instructions">\nMax columns is 20\nMax rows is 40\n\nDelete by setting both to 0</string>
     <string name="confirm_Action">Are you sure?</string>
     <string name="colSize">Column_Size</string>
     <string name="colSize_Land">Column_Size_Landscape</string>
@@ -53,6 +53,7 @@
     <string name="view">VIEW</string>
     <string name="edit">EDIT</string>
     <string name="none">NONE</string>
+    <string name="no_screenshots">No screenshot has been taken</string>
     <string name="select_all">SELECT ALL</string>
 
     <!-- Error -->
@@ -64,10 +65,10 @@
     <string name="landscape">Landscape</string>
 
     <!-- Empty List -->
-    <string name="empty1">So empty in here</string>
+    <string name="empty1">So empty in here\n</string>
     <string name="empty2">Empty box\nSad Box</string>
-    <string name="empty3">Empty!\nLet\'s get this party started!</string>
-    <string name="empty4">Such sadness</string>
+    <string name="empty3">Empty!\nLet\'s get this party started!\n</string>
+    <string name="empty4">Such sadness\n</string>
     <string name="empty5">Empty\nLet us begin!</string>
     <string name="empty6">Empty!</string>
 
