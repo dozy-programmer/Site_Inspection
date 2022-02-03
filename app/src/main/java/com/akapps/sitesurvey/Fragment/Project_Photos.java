@@ -253,7 +253,7 @@ public class Project_Photos extends Fragment{
             if(orientation)
                 rangeMessage = "Pick a number between 5-8";
             else
-                rangeMessage = "Pick a number between 3-5";
+                rangeMessage = "Pick a number between 2-5";
 
             new MaterialDialog.Builder(context)
                     .title(getString(R.string.column_size))
@@ -279,7 +279,7 @@ public class Project_Photos extends Fragment{
                             recyclerView_Photos.setAdapter(adapter_Photos);
                             dialog.dismiss();
                         }
-                        else if (!orientation && inputNum>2 && inputNum<6){
+                        else if (!orientation && inputNum>1 && inputNum<6){
                             setColumnSize(inputNum);
                             recyclerView_Photos.setLayoutManager(new GridLayoutManager(context, inputNum));
                             recyclerView_Photos.setAdapter(adapter_Photos);
