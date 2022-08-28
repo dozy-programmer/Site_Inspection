@@ -18,7 +18,7 @@ This application makes it easier for solar companies to do site inspections by a
 
 App homepage             |  Project homepage | Project photos | Project inverters | Project Panels
 :-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
-<img src="https://user-images.githubusercontent.com/33325959/103191450-e551e100-4889-11eb-8204-2b95429e2383.png" width="350" height="350"/> | <img src="https://user-images.githubusercontent.com/33325959/103191672-b2f4b380-488a-11eb-8972-90b66c7d9adb.png" width="350" height="350"/> | <img src="https://user-images.githubusercontent.com/33325959/103191487-0e727180-488a-11eb-940a-7069caa9ecf3.png" width="350" height="350"/> | <img src="https://user-images.githubusercontent.com/33325959/103191919-a02eae80-488b-11eb-8927-7361f94ddbd9.png" width="350" height="350"/> | <img src="https://user-images.githubusercontent.com/33325959/103191914-9c9b2780-488b-11eb-96c8-bb469c5a5478.png" width="350" height="350"/>
+<img src="https://user-images.githubusercontent.com/33325959/103191450-e551e100-4889-11eb-8204-2b95429e2383.png" width="400" height="350"/> | <img src="https://user-images.githubusercontent.com/33325959/103191672-b2f4b380-488a-11eb-8972-90b66c7d9adb.png" width="400" height="350"/> | <img src="https://user-images.githubusercontent.com/33325959/103191487-0e727180-488a-11eb-940a-7069caa9ecf3.png" width="400" height="350"/> | <img src="https://user-images.githubusercontent.com/33325959/103191919-a02eae80-488b-11eb-8927-7361f94ddbd9.png" width="400" height="350"/> | <img src="https://user-images.githubusercontent.com/33325959/103191914-9c9b2780-488b-11eb-96c8-bb469c5a5478.png" width="400" height="350"/>
 
 ## Features
 
